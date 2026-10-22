@@ -1,6 +1,8 @@
+#include <cstdlib>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
 
 /*
 Design a time-based key-value data structure that can store multiple values for the same key at different time stamps and retrieve the key's value at a certain timestamp.
@@ -74,18 +76,21 @@ public:
     {
         // No need for existence check, if absent it gets created
         store[key].push_back({value, timestamp});
-
-        // if (store.count(key) != 0)
-        // {
-        //     store[key].push_back({value, timestamp});
-        // }
-        // else 
-        // {   
-        //     store.try_emplace(key, 
-        //         std::vector<std::pair<std::string, int>> {
-        //             {value,timestamp}
-        //         }
-        //     );
-        // }
     }
 };
+
+int main()
+{
+    TimeMap timeMap;
+
+    timeMap.set("foo", "bar", 1);
+    timeMap.set("foo", "bar2", 4);
+
+    std::cout << timeMap.get("foo", 1) << '\n';  // bar
+    std::cout << timeMap.get("foo", 3) << '\n';  // bar
+    std::cout << timeMap.get("foo", 4) << '\n';  // bar2
+    std::cout << timeMap.get("foo", 5) << '\n';  // bar2
+    std::cout << timeMap.get("missing", 5) << '\n'; // empty
+
+    return EXIT_SUCCESS;
+}
